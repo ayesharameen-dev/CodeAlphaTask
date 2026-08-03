@@ -1,0 +1,55 @@
+Run started:2026-08-03 18:08:26.822603+00:00
+
+Test results:
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./fixed_app/app.py:11:0
+10	import os
+11	import subprocess
+12	import ipaddress
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: ./fixed_app/app.py:73:13
+72	        return "Invalid host", 400
+73	    result = subprocess.run(
+74	        ["ping", "-c", "1", host], capture_output=True, timeout=5
+75	    )
+76	    return f"Ping executed with exit code {result.returncode}"
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./fixed_app/app.py:73:13
+72	        return "Invalid host", 400
+73	    result = subprocess.run(
+74	        ["ping", "-c", "1", host], capture_output=True, timeout=5
+75	    )
+76	    return f"Ping executed with exit code {result.returncode}"
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 64
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 3
+		Medium: 0
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 3
+Files skipped (0):
