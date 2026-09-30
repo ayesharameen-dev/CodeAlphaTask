@@ -11,7 +11,7 @@ import sqlite3
 import hashlib
 import os
 import pickle
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template, render_template_string
 
 app = Flask(__name__)
 
@@ -38,8 +38,11 @@ def init_db():
     conn.close()
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/", methods=["GET"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "GET":
+        return render_template("login.html")
     username = request.form.get("username", "")
     password = request.form.get("password", "")
 
@@ -52,7 +55,7 @@ def login():
 
     if user:
         return "Welcome " + username  # --- VULNERABILITY 3: Reflected XSS, no escaping ---
-    return "Invalid credentials"
+    return render_template("login.html", error="Invalid email address or password."), 401
 
 
 @app.route("/hash_password", methods=["POST"])
